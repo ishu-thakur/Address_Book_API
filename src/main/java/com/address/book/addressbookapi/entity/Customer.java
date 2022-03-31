@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -30,7 +31,7 @@ public class Customer {
     private String email;
     @Column(name = "CREATED_BY")
     private String createdBy;
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "CREATED_DATE" , nullable = false)
     private Date createdDate;
     @Column(name = "UPDATED_BY")

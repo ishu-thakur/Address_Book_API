@@ -32,9 +32,8 @@ public class CustomerController {
     }
 
     @PutMapping("/delete/{id}")
-    public String delete(@PathVariable int id) {
-         customerServiceImp.delete(id);
-         return "Data have been deleted";
+    public Customer delete(@PathVariable int id) {
+         return customerServiceImp.delete(id);
     }
 }
 

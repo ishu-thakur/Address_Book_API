@@ -1,8 +1,10 @@
 package com.address.book.addressbookapi.mapper;
 
 
+import com.address.book.addressbookapi.dto.AllDetailsDto;
 import com.address.book.addressbookapi.dto.CustomerDto;
 import com.address.book.addressbookapi.dto.MobileDto;
+import com.address.book.addressbookapi.entity.AllDetails;
 import com.address.book.addressbookapi.entity.Customer;
 import com.address.book.addressbookapi.entity.Mobile;
 import org.mapstruct.Mapper;
@@ -19,5 +21,8 @@ public interface mapper {
 
     Mobile mobileDtoToEntity(MobileDto mobileDto);
     MobileDto mobileEntityToDto(Mobile mobile);
+
+    AllDetails allDetailsDtoToEntity(AllDetailsDto allDetailsDto);
+    AllDetailsDto allDetailsEntityToDto(AllDetails allDetails);
 
 }

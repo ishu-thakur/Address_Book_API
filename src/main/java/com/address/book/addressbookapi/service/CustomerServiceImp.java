@@ -1,13 +1,16 @@
 package com.address.book.addressbookapi.service;
 
+import com.address.book.addressbookapi.dto.AllDetailsDto;
+import com.address.book.addressbookapi.dto.CustomerDto;
 import com.address.book.addressbookapi.entity.AllDetails;
 import com.address.book.addressbookapi.entity.Customer;
+import com.address.book.addressbookapi.mapper.mapper;
 import com.address.book.addressbookapi.repo.CustomerRepo;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerServiceImp implements CustomerService {
@@ -36,12 +39,17 @@ public class CustomerServiceImp implements CustomerService {
         return customerRepo.save(allDetails.getCustomer());
     }
 
-    @Override
-    public void delete(int id) {
-        Optional<Customer> foundCustomer = customerRepo.findById(id);
-        if (foundCustomer.get().getIsActive() == "Y") {
-            foundCustomer.get().setIsActive("N");
-        }
+//    @Override
+//    public CustomerDto save(AllDetailsDto allDetailsDto) {
+//      return customerRepo.save(mapper.INSTACNE.allDetailsDtoToEntity(allDetailsDto.getCustomerDto()));
+//    }
 
+    @Override
+    public Customer delete(int id) {
+        Customer
+                foundCustomer = customerRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Data not found"));
+            foundCustomer.setIsActive("N");
+            customerRepo.save(foundCustomer);
+    return foundCustomer;
     }
 }
