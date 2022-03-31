@@ -2,14 +2,21 @@ package com.address.book.addressbookapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
 public class AddressBookApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AddressBookApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AddressBookApiApplication.class, args);
+    }
+
+    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
 
 }
