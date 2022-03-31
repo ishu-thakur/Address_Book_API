@@ -1,8 +1,13 @@
 package com.address.book.addressbookapi.dto;
 
+import com.address.book.addressbookapi.entity.Mobile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.List;
 
 public class CustomerDto {
 
@@ -24,4 +29,5 @@ public class CustomerDto {
     private Date UPDATED_DATE;
     @JsonProperty("isActive")
     private String IS_ACTIVE;
+    private List<MobileDto> mobile_details;
 }

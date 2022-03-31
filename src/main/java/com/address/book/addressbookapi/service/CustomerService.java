@@ -12,7 +12,7 @@ public interface CustomerService {
 
     public List<Customer> findAll();
     public Customer findByName(String firstName);
-//    public CustomerDto save(AllDetailsDto allDetailsDto);
+    public Customer saveDto(AllDetailsDto allDetailsDto);
     public Customer save(AllDetails allDetails);
     public Customer delete(int id);
 }

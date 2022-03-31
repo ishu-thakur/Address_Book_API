@@ -11,5 +11,5 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class AllDetailsDto {
-    private CustomerDto customerDto;
+    private Customer customer;
 }

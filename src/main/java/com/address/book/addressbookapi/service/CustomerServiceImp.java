@@ -39,10 +39,11 @@ public class CustomerServiceImp implements CustomerService {
         return customerRepo.save(allDetails.getCustomer());
     }
 
-//    @Override
-//    public CustomerDto save(AllDetailsDto allDetailsDto) {
-//      return customerRepo.save(mapper.INSTACNE.allDetailsDtoToEntity(allDetailsDto.getCustomerDto()));
-//    }
+    @Override
+    public Customer saveDto(AllDetailsDto allDetailsDto) {
+        Customer customer = allDetailsDto.getCustomer();
+        return customerRepo.save(customer);
+    }
 
     @Override
     public Customer delete(int id) {

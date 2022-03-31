@@ -1,5 +1,7 @@
 package com.address.book.addressbookapi.controller;
 
+import com.address.book.addressbookapi.dto.AllDetailsDto;
+import com.address.book.addressbookapi.dto.CustomerDto;
 import com.address.book.addressbookapi.entity.AllDetails;
 import com.address.book.addressbookapi.entity.Customer;
 import com.address.book.addressbookapi.service.CustomerServiceImp;
@@ -29,6 +31,11 @@ public class CustomerController {
     @PostMapping("/save")
     public Customer save(@RequestBody AllDetails allDetails) {
         return customerServiceImp.save(allDetails);
+    }
+
+    @PostMapping("/saveDto")
+    public Customer save(@RequestBody AllDetailsDto allDetailsDtoDto) {
+        return customerServiceImp.saveDto(allDetailsDtoDto);
     }
 
     @PutMapping("/delete/{id}")

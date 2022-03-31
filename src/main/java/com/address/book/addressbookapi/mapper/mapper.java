@@ -22,7 +22,10 @@ public interface mapper {
     Mobile mobileDtoToEntity(MobileDto mobileDto);
     MobileDto mobileEntityToDto(Mobile mobile);
 
-    AllDetails allDetailsDtoToEntity(AllDetailsDto allDetailsDto);
-    AllDetailsDto allDetailsEntityToDto(AllDetails allDetails);
+
+
+    Object allDetailsDtoToEntity(Customer customer);
+//    AllDetails allDetailsDtoToEntity(AllDetailsDto allDetailsDto);
+//    AllDetailsDto allDetailsEntityToDto(AllDetails allDetails);
 
 }
