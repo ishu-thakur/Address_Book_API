@@ -1,8 +1,6 @@
 package com.address.book.addressbookapi.service;
 
-import com.address.book.addressbookapi.dto.AllDetailsDto;
 import com.address.book.addressbookapi.dto.CustomerDto;
-import com.address.book.addressbookapi.entity.AllDetails;
 import com.address.book.addressbookapi.entity.Customer;
 import com.address.book.addressbookapi.mapper.mapper;
 import com.address.book.addressbookapi.repo.CustomerRepo;
@@ -19,38 +17,41 @@ public class CustomerServiceImp implements CustomerService {
     public CustomerRepo customerRepo;
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepo.findAll();
+    public List<CustomerDto> findAll() {
+        return mapper.INSTACNE.entityListToDto(customerRepo.findAll());
+    }
+
+
+    @Override
+    public List<CustomerDto> findByName(String firstName) {
+
+//        Customer foundByFirstName =
+        return mapper.INSTACNE.entityListToDto(customerRepo.findByFirstName(firstName));
+//        if (foundByFirstName.getIsActive() == "N") {
+//            return null;
+//        } else {
+//            return foundByFirstName;
+//        }
+    }
+
+
+    @Override
+    public CustomerDto saveDto(CustomerDto customerDto) {
+        return mapper.INSTACNE.custEntityToDto(customerRepo.save(mapper.INSTACNE.custDtoToEntity(customerDto)));
     }
 
     @Override
-    public Customer findByName(String firstName) {
-
-        Customer foundByFirstName = customerRepo.findByFirstName(firstName);
-        if (foundByFirstName.getIsActive() == "N") {
-            return null;
-        } else {
-            return foundByFirstName;
-        }
-    }
-
-    @Override
-    public Customer save(AllDetails allDetails) {
-        return customerRepo.save(allDetails.getCustomer());
-    }
-
-    @Override
-    public Customer saveDto(AllDetailsDto allDetailsDto) {
-        Customer customer = allDetailsDto.getCustomer();
-        return customerRepo.save(customer);
-    }
-
-    @Override
-    public Customer delete(int id) {
+    public String delete(Long id) {
+//
+//        if(!ObjectUtils.isEmpty(isRemote) && isRemote.equals("Y")) {
+//            // fetch data from remote machine
+//        } else {
+//            local db
+//        }
         Customer
-                foundCustomer = customerRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Data not found"));
-            foundCustomer.setIsActive("N");
-            customerRepo.save(foundCustomer);
-    return foundCustomer;
+                foundCustomer = customerRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Data not found"));
+        foundCustomer.setIsActive("N");
+        customerRepo.save(foundCustomer);
+        return "Data have been updated";
     }
 }

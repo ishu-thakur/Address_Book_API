@@ -18,33 +18,68 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-
-    @Id
+//************************************OLD***************************************
+//    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CONTACT_ID")
-    private int contactId;
-    @Column(name = "FIRST_NAME")
+//    @Column(name = "CONTACT_ID")
+//    private int contactId;
+//    @Column(name = "FIRST_NAME")
+//    private String firstName;
+//    @Column(name = "LAST_NAME")
+//    private String lastName;
+//    @Column(name = "EMAIL_ADDRESS")
+//    private String emailAddress;
+//    @Column(name = "CREATED_BY")
+//    private String createdBy;
+//    @CreationTimestamp
+//    @Column(name = "CREATED_DATE" , nullable = false)
+//    private Date createdDate;
+//    @Column(name = "UPDATED_BY")
+//    private String updatedBy;
+//    @UpdateTimestamp
+//    @Column(name = "UPDATED_DATE",nullable = false)
+//    private Date updatedDate;
+//    @Column(name = "IS_ACTIVE")
+//    private String isActive;
+//
+//    @OneToMany(targetEntity = Mobile.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")
+//    private List<Mobile> mobile_details;
+
+//************************************for running the external apis***************************************
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "contact_id", nullable = false)
+    private Long contactId;
+
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "LAST_NAME")
+
+    @Column(name = "last_name")
     private String lastName;
-    @Column(name = "EMAIL_ADDRESS")
-    private String email;
-    @Column(name = "CREATED_BY")
+
+    @Column(name = "email_address")
+    private String emailAddress;
+
+    @Column(name = "created_by")
     private String createdBy;
-    @CreationTimestamp
-    @Column(name = "CREATED_DATE" , nullable = false)
+
+    @Column(name = "created_Date")
+    @CreatedDate
     private Date createdDate;
-    @Column(name = "UPDATED_BY")
+
+    @Column(name = "updated_By")
     private String updatedBy;
+
+    @Column(name = "updated_Date")
     @UpdateTimestamp
-    @Column(name = "UPDATED_DATE",nullable = false)
     private Date updatedDate;
-    @Column(name = "IS_ACTIVE")
+
+    @Column(name = "is_active")
     private String isActive;
 
-    @OneToMany(targetEntity = Mobile.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")
-    private List<Mobile> mobile_details;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id", referencedColumnName = "contact_id")
+    private List<Mobile> mobileEntities;
 
 }

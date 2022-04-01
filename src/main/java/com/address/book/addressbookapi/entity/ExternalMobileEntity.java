@@ -10,40 +10,40 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Entity
 public class ExternalMobileEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "mobile_id", nullable = false)
-    private Long mobileId;
-
-    @Column(name = "mobile_number")
-    private String mobileNumber;
-
-    @Column(name = "country_code")
-    private String countryCode;
-
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "created_by")
-    private String createdBy;
-
-    @Column(name = "created_Date")
-    @CreationTimestamp
-    private Date createdDate;
-
-    @Column(name = "updated_By")
-    private String updatedBy;
-
-    @Column(name = "updated_Date")
-    @UpdateTimestamp
-    private Date updatedDate;
-
-
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "mobile_id", nullable = false)
+//    private Long mobileId;
+//
+//    @Column(name = "mobile_number")
+//    private String mobileNumber;
+//
+//    @Column(name = "country_code")
+//    private String countryCode;
+//
+//    @Column(name = "type")
+//    private String type;
+//
+//    @Column(name = "created_by")
+//    private String createdBy;
+//
+//    @Column(name = "created_Date")
+//    @CreationTimestamp
+//    private Date createdDate;
+//
+//    @Column(name = "updated_By")
+//    private String updatedBy;
+//
+//    @Column(name = "updated_Date")
+//    @UpdateTimestamp
+//    private Date updatedDate;
+//
+//
 
 }
