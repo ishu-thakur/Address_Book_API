@@ -2,6 +2,7 @@ package com.address.book.addressbookapi.service;
 
 import com.address.book.addressbookapi.dto.CustomerDto;
 import com.address.book.addressbookapi.entity.Customer;
+import com.address.book.addressbookapi.exceptionHandling.ListEmptyException;
 import com.address.book.addressbookapi.mapper.mapper;
 import com.address.book.addressbookapi.repo.CustomerRepo;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -18,30 +19,37 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll() {
-        return mapper.INSTACNE.entityListToDto(customerRepo.findAll());
+        List<CustomerDto> customerDtoList = mapper.INSTACNE.entityListToDto(customerRepo.findAll());
+        if (customerDtoList.isEmpty()) {
+            throw new ListEmptyException();
+        } else {
+            return customerDtoList;
+        }
     }
 
 
     @Override
     public List<CustomerDto> findByName(String firstName) {
-
-//        Customer foundByFirstName =
-        return mapper.INSTACNE.entityListToDto(customerRepo.findByFirstName(firstName));
-//        if (foundByFirstName.getIsActive() == "N") {
-//            return null;
-//        } else {
-//            return foundByFirstName;
-//        }
+        List<CustomerDto> customerDtoList = mapper.INSTACNE.entityListToDto(customerRepo.findByFirstName(firstName));
+        if (customerDtoList.isEmpty()) {
+            throw new ListEmptyException();
+        } else {
+            return customerDtoList;
+        }
     }
 
 
     @Override
     public CustomerDto saveDto(CustomerDto customerDto) {
-        return mapper.INSTACNE.custEntityToDto(customerRepo.save(mapper.INSTACNE.custDtoToEntity(customerDto)));
+        CustomerDto saveData = null;
+        for (int i = 0; i < 50000; i++) {
+             saveData = mapper.INSTACNE.custEntityToDto(customerRepo.save(mapper.INSTACNE.custDtoToEntity(customerDto)));
+        }
+        return saveData;
     }
 
     @Override
-    public String delete(Long id) {
+    public String delete(Integer id) {
 //
 //        if(!ObjectUtils.isEmpty(isRemote) && isRemote.equals("Y")) {
 //            // fetch data from remote machine

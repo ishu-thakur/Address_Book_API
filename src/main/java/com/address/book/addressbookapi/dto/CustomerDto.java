@@ -1,13 +1,14 @@
 package com.address.book.addressbookapi.dto;
 
-import com.address.book.addressbookapi.entity.ExternalMobileEntity;
 import com.address.book.addressbookapi.entity.Mobile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -56,23 +57,29 @@ public class CustomerDto {
 //    private String isActive;
 //    private List<Mobile> mobile_details;
 
-    private Long contactId;
+    private Integer contactId;
+
 
     private String firstName;
 
+
     private String lastName;
 
+
     private String emailAddress;
+
 
     private String createdBy;
 
     private Date createdDate;
 
+
     private String updatedBy;
 
     private Date updatedDate;
 
-    private List<Mobile> mobileEntities;
 
     private String isActive;
+
+    private List<Mobile> mobileEntities;
 }

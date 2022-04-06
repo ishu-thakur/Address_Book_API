@@ -7,7 +7,7 @@ import java.util.Date;
 public class MobileDto {
 
     @JsonProperty("mobileId")
-    private int mobile_Id;
+    private Integer mobile_Id;
     @JsonProperty("mobileNumber")
     private String MOBILE_NUMBER;
     @JsonProperty("countryCd")

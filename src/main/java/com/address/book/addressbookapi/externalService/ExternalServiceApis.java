@@ -39,7 +39,7 @@ public class ExternalServiceApis {
 
     }
 
-    public String externalUpdate(Long id) throws JsonProcessingException {
+    public String externalUpdate(Integer id) throws JsonProcessingException {
 
 //            HttpHeaders httpHeaders = new HttpHeaders();
 //            httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

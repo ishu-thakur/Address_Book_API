@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class CustomerController {
     public ExternalServiceApis externalServiceApis;
 
     @GetMapping("/findByName/{firstName}")
-    public List<CustomerDto> findByname(@PathVariable String firstName, @RequestParam String isRemote) throws JsonProcessingException {
+    public List<CustomerDto> findByname(@PathVariable(required = true) String firstName, @RequestParam String isRemote) throws JsonProcessingException {
         if (isRemote.equals("yes")) {
             return List.of(externalServiceApis.externalSearchByFirstName(firstName));
         }
@@ -39,7 +40,7 @@ public class CustomerController {
 
 
     @PostMapping("/saveDto")
-    public CustomerDto saveDto(@RequestBody CustomerDto customerDto, @RequestParam String isRemote) throws JsonProcessingException {
+    public CustomerDto saveDto(@Valid @RequestBody CustomerDto customerDto, @RequestParam String isRemote) throws JsonProcessingException {
         if (isRemote.equals("yes")) {
             return externalServiceApis.externalSave(customerDto);
         } else {
@@ -49,7 +50,7 @@ public class CustomerController {
     }
 
     @PutMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, @RequestParam String isRemote) throws JsonProcessingException {
+    public String delete(@PathVariable(required = true) Integer id, @RequestParam String isRemote) throws JsonProcessingException {
         if (isRemote.equals("yes")) {
             return externalServiceApis.externalUpdate(id);
         } else {
