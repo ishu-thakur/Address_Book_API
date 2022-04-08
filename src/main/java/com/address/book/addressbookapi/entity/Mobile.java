@@ -7,12 +7,8 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
@@ -23,32 +19,7 @@ import java.util.Date;
 @ToString
 public class Mobile {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "MOBILE_ID")
-//    private int mobileId;
-//    @Column(name = "MOBILE_NUMBER")
-//    private String mobileNumber;
-//    @Column(name = "COUNTRY_CD")
-//    private String countryCd;
-//    @Column(name = "TYPE")
-//    @Enumerated(EnumType.STRING)
-//    private Type type;
-//    @Column(name = "CREATED_BY")
-//    private String createdBy;
-//    @CreationTimestamp
-//    @Column(name = "CREATED_DATE", nullable = false)
-//    private Date createdDate;
-//    @Column(name = "UPDATED_BY")
-//    private String updatedBy;
-//    @UpdateTimestamp
-//    @Column(name = "UPDATED_DATE", nullable = false)
-//    private Date updatedDate;
-//
-//    public enum Type {
-//        Home,
-//        Work
-//    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

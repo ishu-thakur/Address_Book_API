@@ -1,9 +1,11 @@
 package com.address.book.addressbookapi.controller;
 
 import com.address.book.addressbookapi.dto.CustomerDto;
-import com.address.book.addressbookapi.externalService.ExternalServiceApis;
 import com.address.book.addressbookapi.service.CustomerServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,69 +19,37 @@ public class CustomerController {
     @Autowired
     public CustomerServiceImp customerServiceImp;
 
-    @Autowired
-    public ExternalServiceApis externalServiceApis;
+    Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
-    @GetMapping("/findByName/{firstName}")
-    public List<CustomerDto> findByname(@PathVariable(required = true) String firstName, @RequestParam String isRemote) throws JsonProcessingException {
-        if (isRemote.equals("yes")) {
-            return List.of(externalServiceApis.externalSearchByFirstName(firstName));
-        }
-        return customerServiceImp.findByName(firstName);
+    @ApiOperation("Find the record by first name")
+    @GetMapping("/findByName")
+
+    public List<CustomerDto> findByName(@RequestParam(required = true) String firstName, @RequestParam String isRemote) throws JsonProcessingException {
+        logger.info("We are in the findByName Api");
+        return customerServiceImp.findByName(firstName, isRemote);
 
     }
 
+
+    @ApiOperation("Find all records present in database")
     @GetMapping("/findAll")
     public List<CustomerDto> findAll(@RequestParam String isRemote) throws JsonProcessingException {
-        if (isRemote.equals("yes")) {
-            return List.of(externalServiceApis.externalFindAll());
-        } else {
-            return customerServiceImp.findAll();
-        }
+        return customerServiceImp.findAll(isRemote);
     }
 
 
+    @ApiOperation("Save the data in the DTO format")
     @PostMapping("/saveDto")
     public CustomerDto saveDto(@Valid @RequestBody CustomerDto customerDto, @RequestParam String isRemote) throws JsonProcessingException {
-        if (isRemote.equals("yes")) {
-            return externalServiceApis.externalSave(customerDto);
-        } else {
-            return customerServiceImp.saveDto(customerDto);
-        }
-
-    }
-
-    @PutMapping("/delete/{id}")
-    public String delete(@PathVariable(required = true) Integer id, @RequestParam String isRemote) throws JsonProcessingException {
-        if (isRemote.equals("yes")) {
-            return externalServiceApis.externalUpdate(id);
-        } else {
-            return customerServiceImp.delete(id);
-        }
-
+        return customerServiceImp.saveDto(customerDto, isRemote);
     }
 
 
-//***********************************************************EXTERNAL APIS************************************************************************************
-//    @GetMapping("/externalFindAll")
-//    public List<Customer> externalFindAll() throws JsonProcessingException {
-//        return List.of(externalServiceApis.externalFindAll());
-//    }
-//
-//    @PostMapping("/externalSave")
-//    public ExternalContactDto externalSave(@RequestBody ExternalContactDto externalContactDto) throws JsonProcessingException {
-//        return externalServiceApis.externalSave(externalContactDto);
-//    }
-//
-//    @GetMapping("/externalFindAll/{firstName}")
-//    public List<ExternalContactDto> externalSearchByName(@PathVariable String firstName) throws JsonProcessingException {
-//        return List.of(externalServiceApis.externalSearchByFirstName(firstName));
-//    }
-//
-//    @PutMapping("/externalUpdate/{id}")
-//    public String externalUpdate(@PathVariable Long id) throws JsonProcessingException {
-//        return externalServiceApis.externalUpdate(id);
-//    }
+    @ApiOperation("Delete the record by changing isActive")
+    @PutMapping("/delete")
+    public String delete(@RequestParam(required = true) Integer id, @RequestParam String isRemote) {
+        return customerServiceImp.delete(id, isRemote);
+    }
 
 }
 

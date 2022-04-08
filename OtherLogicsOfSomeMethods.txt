@@ -1,0 +1,228 @@
+//    @Modifying
+//    @Query("UPDATE Customer SET IS_ACTIVE ='N', WHERE CONTACT_ID = :id")
+//    void updateIsActive(int id);
+//    @Modifying
+//    @Query("UPDATE Customer c SET c.isActive = 'N' WHERE c.CONTACT_ID = :id")
+//    void updateIsActive(@Param("id") int id);
+
+//    *****************************************MY SQL **************************************************************************
+//    @Modifying
+//    @Query(
+//            value = "LOAD DATA LOCAL INFILE 'C:/Users/ishu.thakur/Downloads/AddressBook_2022-04-05_12_56_21.csv' INTO TABLE address_book.customer FIELDS TERMINATED BY ',' LINES terminated by '\n'",
+//    nativeQuery = true)
+//    void uploadAllFromExcelToDatabase();
+
+//    *****************************************SQL**************************************************************************
+//    @Modifying
+//    @Query(
+//            value = "BULK INSERT customer FROM 'C:\\Users\\ishu.thakur\\Downloads\\AddressBook_2022-04-05_12_56_21.csv' WITH ( FIELDTERMINATOR=',' , ROWTERMINATOR='\n' );",
+//    nativeQuery = true)
+//    void uploadAllFromExcelToDatabase();
+
+//            HttpHeaders httpHeaders = new HttpHeaders();
+//            httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//            HttpEntity<ExternalContactDto> entity = new HttpEntity<ExternalContactDto>(httpHeaders);
+//            String updateOne = restTemplate.exchange("http://10.50.2.201:8085/update/" + id, HttpMethod.PUT, entity, String.class).getBody();
+//        return objectMapper.readValue(updateOne,ExternalContactDto.class);
+
+***********************MOBILE*****************
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "MOBILE_ID")
+//    private int mobileId;
+//    @Column(name = "MOBILE_NUMBER")
+//    private String mobileNumber;
+//    @Column(name = "COUNTRY_CD")
+//    private String countryCd;
+//    @Column(name = "TYPE")
+//    @Enumerated(EnumType.STRING)
+//    private Type type;
+//    @Column(name = "CREATED_BY")
+//    private String createdBy;
+//    @CreationTimestamp
+//    @Column(name = "CREATED_DATE", nullable = false)
+//    private Date createdDate;
+//    @Column(name = "UPDATED_BY")
+//    private String updatedBy;
+//    @UpdateTimestamp
+//    @Column(name = "UPDATED_DATE", nullable = false)
+//    private Date updatedDate;
+//
+//    public enum Type {
+//        Home,
+//        Work
+//    }
+
+
+//************************************OLD***************************************
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "CONTACT_ID")
+//    private int contactId;
+//    @Column(name = "FIRST_NAME")
+//    private String firstName;
+//    @Column(name = "LAST_NAME")
+//    private String lastName;
+//    @Column(name = "EMAIL_ADDRESS")
+//    private String emailAddress;
+//    @Column(name = "CREATED_BY")
+//    private String createdBy;
+//    @CreationTimestamp
+//    @Column(name = "CREATED_DATE" , nullable = false)
+//    private Date createdDate;
+//    @Column(name = "UPDATED_BY")
+//    private String updatedBy;
+//    @UpdateTimestamp
+//    @Column(name = "UPDATED_DATE",nullable = false)
+//    private Date updatedDate;
+//    @Column(name = "IS_ACTIVE")
+//    private String isActive;
+//
+//    @OneToMany(targetEntity = Mobile.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "CONTACT_ID", referencedColumnName = "CONTACT_ID")
+//    private List<Mobile> mobile_details;
+
+
+
+//***********************************************************EXTERNAL APIS************************************************************************************
+//    @GetMapping("/externalFindAll")
+//    public List<Customer> externalFindAll() throws JsonProcessingException {
+//        return List.of(externalServiceApis.externalFindAll());
+//    }
+//
+//    @PostMapping("/externalSave")
+//    public ExternalContactDto externalSave(@RequestBody ExternalContactDto externalContactDto) throws JsonProcessingException {
+//        return externalServiceApis.externalSave(externalContactDto);
+//    }
+//
+//    @GetMapping("/externalFindAll/{firstName}")
+//    public List<ExternalContactDto> externalSearchByName(@PathVariable String firstName) throws JsonProcessingException {
+//        return List.of(externalServiceApis.externalSearchByFirstName(firstName));
+//    }
+//
+//    @PutMapping("/externalUpdate/{id}")
+//    public String externalUpdate(@PathVariable Long id) throws JsonProcessingException {
+//        return externalServiceApis.externalUpdate(id);
+//    }
+
+
+************************************************save all***************************************************
+package com.trantor.addressbookapi.bulksave;
+
+import com.trantor.addressbookapi.model.ContactEntity;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+@Configuration
+public class JdbcTemplateBulkSave implements InsertBulkData {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcTemplateBulkSave(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public void bulkDataSave(List<ContactEntity> entityList) {
+
+        String query = "insert into CONTACT_TABLE (CONTACT_ID, FIRST_NAME, LAST_NAME,EMAIL_ADDRESS,IS_ACTIVE) values(?,?,?,?,?)";
+        jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ContactEntity contactEntity = entityList.get(i);
+                ps.setLong(1, contactEntity.getContactId());
+                ps.setString(2, contactEntity.getFirstName());
+                ps.setString(3, contactEntity.getLastName());
+                ps.setString(4, contactEntity.getIsActive());
+                ps.setString(5, contactEntity.getEmailAddress());
+
+
+            }
+
+            @Override
+            public int getBatchSize() {
+                return entityList.size();
+            }
+
+
+        });
+    }
+}
+
+
+package com.trantor.addressbookapi.bulksave;
+
+import com.trantor.addressbookapi.model.ContactEntity;
+
+import java.util.List;
+
+public interface InsertBulkData {
+    void bulkDataSave(List<ContactEntity> entityList);
+}
+
+
+
+
+
+//    @JsonProperty("contactId")
+//    private int CONTACT_ID;
+//    @JsonProperty("firstName")
+//    private String FIRST_NAME;
+//    @JsonProperty("lastName")
+//    private String LAST_NAME;
+//    @JsonProperty("email")
+//    private String EMAIL_ADDRESS;
+//    @JsonProperty("createdBy")
+//    private String CREATED_BY;
+//    @JsonProperty("createdDate")
+//    private Date CREATED_DATE;
+//    @JsonProperty("updatedBy")
+//    private String UPDATED_BY;
+//    @JsonProperty("updatedDate")
+//    private Date UPDATED_DATE;
+//    @JsonProperty("isActive")
+//    private String IS_ACTIVE;
+
+
+//    private int contactId;
+//
+//    private String firstName;
+//
+//    private String lastName;
+//
+//    private String email;
+//
+//    private String createdBy;
+//
+//    private Date createdDate;
+//
+//    private String updatedBy;
+//
+//    private Date updatedDate;
+//
+//    private String isActive;
+//    private List<Mobile> mobile_details;
+
+
+
+    @JsonProperty("mobileId")
+    private Integer mobile_Id;
+    @JsonProperty("mobileNumber")
+    private String MOBILE_NUMBER;
+    @JsonProperty("countryCd")
+    private String COUNTRY_CD;
+    @JsonProperty("type")
+    private String TYPE;
+    @JsonProperty("createdBy")
+    private String CREATED_BY;
+    @JsonProperty("createdDate")
+    private Date CREATED_DATE;
+    @JsonProperty("updatedBy")
+    private String UPDATED_BY;
+    @JsonProperty("updatedDate")
+    private Date UPDATED_DATE;

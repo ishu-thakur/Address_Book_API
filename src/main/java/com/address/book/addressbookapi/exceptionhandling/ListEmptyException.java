@@ -1,4 +1,4 @@
-package com.address.book.addressbookapi.exceptionHandling;
+package com.address.book.addressbookapi.exceptionhandling;
 
 public class ListEmptyException extends RuntimeException {
 

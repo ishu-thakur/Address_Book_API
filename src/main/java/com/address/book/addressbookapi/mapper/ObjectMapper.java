@@ -9,9 +9,9 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper
-public interface mapper {
+public interface ObjectMapper {
 
-    mapper INSTACNE = Mappers.getMapper(mapper.class);
+    ObjectMapper INSTACNE = Mappers.getMapper(ObjectMapper.class);
 
     Customer custDtoToEntity(CustomerDto customerDto);
 

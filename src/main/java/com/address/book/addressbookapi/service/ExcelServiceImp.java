@@ -1,14 +1,23 @@
 package com.address.book.addressbookapi.service;
 
 import com.address.book.addressbookapi.dto.CustomerDto;
-import com.address.book.addressbookapi.exceptionHandling.ListEmptyException;
-import com.address.book.addressbookapi.mapper.mapper;
+import com.address.book.addressbookapi.entity.Customer;
+import com.address.book.addressbookapi.exceptionhandling.ListEmptyException;
+import com.address.book.addressbookapi.mapper.ObjectMapper;
 import com.address.book.addressbookapi.repo.CustomerRepo;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,13 +25,16 @@ import java.util.List;
 public class ExcelServiceImp implements ExcelService {
 
 
-//  private static final String CSV_FILE_LOCATION = "C:/Users/ishu.thakur/Downloads/AddressBook_2022-04-05_12_56_21.xlsx";
+
     @Autowired
     private CustomerRepo customerRepo;
 
+    Logger logger = LoggerFactory.getLogger(ExcelServiceImp.class);
+
     @Override
     public List<CustomerDto> findAll() {
-        List<CustomerDto> customerDtoList = mapper.INSTACNE.entityListToDto(customerRepo.findAll());
+        logger.info("we are in FindAll in ExcelServiceImp");
+        List<CustomerDto> customerDtoList = ObjectMapper.INSTACNE.entityListToDto(customerRepo.findAll());
         if (customerDtoList.isEmpty()) {
             throw new ListEmptyException();
         } else {
@@ -30,40 +42,29 @@ public class ExcelServiceImp implements ExcelService {
         }
     }
 
-    public void uploadAll() throws IOException {
+    public void uploadAll(MultipartFile file) throws IOException {
+        logger.info("we are in uploadAll in ExcelServiceImp");
+        List<Customer> customerDtoList = new ArrayList<>();
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet worksheet = workbook.getSheetAt(0);
 
-//        List<Customer> courses = new ArrayList<>();
-//
-//        Workbook workbook =null;
-//
-//            // Creating a Workbook from an Excel file (.xls or .xlsx)
-//            workbook = WorkbookFactory.create(new File(CSV_FILE_LOCATION));
-//
-//            workbook.forEach(sheet -> {
-//
-//                // Create a DataFormatter to format and get each cell's value as String
-//                DataFormatter dataFormatter = new DataFormatter();
-//
-//                //loop through all rows and columns and create Course object
-//                int index = 0;
-//                for(Row row : sheet) {
-//                    if(index++ == 0) continue;
-//
-//                    Customer course = new Customer();
-//                    course.setContactId(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0))));
-//                    course.setFirstName(dataFormatter.formatCellValue(row.getCell(1)));
-//                    course.setLastName(dataFormatter.formatCellValue(row.getCell(2)));
-//                    course.setEmailAddress(dataFormatter.formatCellValue(row.getCell(3)));
-//                    course.setIsActive(dataFormatter.formatCellValue(row.getCell(4)));
-//                    course.setCreatedBy(dataFormatter.formatCellValue(row.getCell(5)));
-//                    course.setUpdatedBy(dataFormatter.formatCellValue(row.getCell(6)));
-//                    courses.add(course);
-//                }
-//
-//                customerRepo.saveAll(courses);
-//            });
+        for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
+            Customer customer = new Customer();
 
-//        return courses;
-         customerRepo.uploadAllFromExcelToDatabase();
+            XSSFRow row = worksheet.getRow(i);
+
+            customer.setContactId((int) row.getCell(0).getNumericCellValue());
+            customer.setFirstName(row.getCell(1).getStringCellValue());
+            customer.setLastName(row.getCell(2).getStringCellValue());
+            customer.setEmailAddress(row.getCell(3).getStringCellValue());
+            customer.setIsActive(row.getCell(4).getStringCellValue());
+            customer.setCreatedBy(row.getCell(5).getStringCellValue());
+            customer.setUpdatedBy(row.getCell(6).getStringCellValue());
+            customerDtoList.add(customer);
+        }
+        StopWatch stopWatch = new StopWatch();
+        customerRepo.saveAll(customerDtoList);
+        stopWatch.stop();
+        logger.info("save time : " + "%d" ,stopWatch.getTotalTimeSeconds());
     }
 }

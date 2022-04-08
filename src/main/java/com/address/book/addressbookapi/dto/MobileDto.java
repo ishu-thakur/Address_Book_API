@@ -1,26 +1,23 @@
 package com.address.book.addressbookapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MobileDto {
 
-    @JsonProperty("mobileId")
-    private Integer mobile_Id;
-    @JsonProperty("mobileNumber")
-    private String MOBILE_NUMBER;
-    @JsonProperty("countryCd")
-    private String COUNTRY_CD;
-    @JsonProperty("type")
-    private String TYPE;
-    @JsonProperty("createdBy")
-    private String CREATED_BY;
-    @JsonProperty("createdDate")
-    private Date CREATED_DATE;
-    @JsonProperty("updatedBy")
-    private String UPDATED_BY;
-    @JsonProperty("updatedDate")
-    private Date UPDATED_DATE;
-
+    private Integer mobileId;
+    private String mobileNumber;
+    private String countryCd;
+    private String createdBy;
+    private Date createdDate;
+    private String updatedBy;
+    private Date updatedDate;
 }
