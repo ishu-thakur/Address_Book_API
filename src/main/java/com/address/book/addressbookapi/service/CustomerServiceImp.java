@@ -37,7 +37,6 @@ public class CustomerServiceImp implements CustomerService {
         if (customerDtoList.isEmpty()) {
             throw new ListEmptyException();
         }
-
         return customerDtoList;
     }
 
@@ -61,12 +60,9 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public CustomerDto saveDto(CustomerDto customerDto, String isRemote) throws JsonProcessingException {
         logger.info("we are in saveDto in CustomerServiceImpl");
-        if (isRemote.equalsIgnoreCase("yes")) {
-            logger.info("We are in the saveDto External Api");
-            return externalServiceApis.externalSave(customerDto);
-        }
-        logger.info("We are in the saveDto Remote Api");
-        return ObjectMapper.INSTACNE.custEntityToDto(customerRepo.save(ObjectMapper.INSTACNE.custDtoToEntity(customerDto)));
+
+        return isRemote.equalsIgnoreCase("yes") ? externalServiceApis.externalSave(customerDto) : ObjectMapper.INSTACNE.custEntityToDto(customerRepo.save(ObjectMapper.INSTACNE.custDtoToEntity(customerDto)));
+
     }
 
     @Override

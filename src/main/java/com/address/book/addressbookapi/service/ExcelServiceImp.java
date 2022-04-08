@@ -65,6 +65,6 @@ public class ExcelServiceImp implements ExcelService {
         StopWatch stopWatch = new StopWatch();
         customerRepo.saveAll(customerDtoList);
         stopWatch.stop();
-        logger.info("save time : " + "%d" ,stopWatch.getTotalTimeSeconds());
+        logger.info("save time : " ,stopWatch.getTotalTimeSeconds());
     }
 }

@@ -19,13 +19,10 @@ public class CustomerController {
     @Autowired
     public CustomerServiceImp customerServiceImp;
 
-    Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @ApiOperation("Find the record by first name")
     @GetMapping("/findByName")
-
     public List<CustomerDto> findByName(@RequestParam(required = true) String firstName, @RequestParam String isRemote) throws JsonProcessingException {
-        logger.info("We are in the findByName Api");
         return customerServiceImp.findByName(firstName, isRemote);
 
     }

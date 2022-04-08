@@ -257,3 +257,6 @@ com.fasterxml.jackson.core.JsonParseException: Unexpected character ('|' (code 1
 2022-04-08 11:06:16 [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
 2022-04-08 11:06:16 [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
 2022-04-08 11:06:17 [restartedMain] INFO  c.a.b.a.AddressBookApiApplication - Started AddressBookApiApplication in 16.361 seconds (JVM running for 18.098)
+2022-04-08 15:54:15 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-04-08 15:54:15 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2022-04-08 15:54:15 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 120 ms

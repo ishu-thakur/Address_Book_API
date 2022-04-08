@@ -19,8 +19,6 @@ import java.util.Date;
 @ToString
 public class Mobile {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mobile_id", nullable = false)
